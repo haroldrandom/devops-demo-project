@@ -10,6 +10,14 @@ router = APIRouter(
 )
 
 
+class Money:
+    def __init__(self) -> None:
+        self.names = []
+
+
+MONET_HANDLER = Money()
+
+
 class ModelName(str, Enum):
     alexnet = "alexnet"
     resnet = "resnet"
@@ -18,6 +26,7 @@ class ModelName(str, Enum):
 
 @router.get("/{model_name}")
 async def get_model(model_name: ModelName):
+
     if model_name == ModelName.alexnet:
         return {"model_name": model_name, "message": "Deep Learning FTW!"}
 
@@ -25,3 +34,10 @@ async def get_model(model_name: ModelName):
         return {"model_name": model_name, "message": "LeCNN all the images"}
 
     return {"model_name": model_name, "message": "Have some residuals"}
+
+
+@router.get("/memory_blow/{model_name}")
+async def memory_blow_model(model_name: str):
+    MONET_HANDLER.names.append(model_name)
+
+    return {"count": len(MONET_HANDLER.names)}
