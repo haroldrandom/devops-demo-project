@@ -1,6 +1,7 @@
 from enum import Enum
 
 from fastapi import APIRouter, Depends, HTTPException
+from loguru import logger
 
 router = APIRouter(
     prefix="/models",
@@ -15,7 +16,7 @@ class Money:
         self.names = []
 
 
-MONET_HANDLER = Money()
+MONEY_HANDLER = Money()
 
 
 class ModelName(str, Enum):
@@ -26,6 +27,8 @@ class ModelName(str, Enum):
 
 @router.get("/{model_name}")
 async def get_model(model_name: ModelName):
+
+    logger.info(f"get_model from: {model_name}")
 
     if model_name == ModelName.alexnet:
         return {"model_name": model_name, "message": "Deep Learning FTW!"}
@@ -38,6 +41,8 @@ async def get_model(model_name: ModelName):
 
 @router.get("/memory_blow/{model_name}")
 async def memory_blow_model(model_name: str):
-    MONET_HANDLER.names.append(model_name)
+    MONEY_HANDLER.names.append(model_name)
 
-    return {"count": len(MONET_HANDLER.names)}
+    logger.info(f"Current model names count {len(MONEY_HANDLER.names)}")
+
+    return {"count": len(MONEY_HANDLER.names)}
