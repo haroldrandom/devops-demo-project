@@ -14,7 +14,7 @@ router = APIRouter(
 fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
 
 
-@router.get("/")
+@router.get("/", description="List all my items", summary="List all items")
 async def read_items():
 
     logger.info(f"List All items: [{fake_items_db}]")
